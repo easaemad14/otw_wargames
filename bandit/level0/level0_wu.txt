@@ -1,0 +1,49 @@
+Okay, so I guess they weren't joking when they said that this was geared towards 
+absolute beginners. Basically, all we are doing is connecting to the server that
+hosts this wargame: bandit.labs.overthewire.org, with the username and password
+bandit0. 
+
+I am not going to cover everything about ssh, since it is a robust program with
+many features like logging, key-management, forwarding, etc. So, let's go over the
+input and output, and analyze what's going on (we learning now!).
+
+So if you read the man page (which I would suggest getting good at if you are
+anything like me), you know that you can connect several ways (and I am not going
+to go through all of the options and what they mean. That'll give you some practice
+learning to rean man pages). The most basic way would be to type the following: 
+	ssh -l bandit0 bandit.labs.overthewire.org
+
+OR, you could use the more optimal line:
+	ssh bandit0@bandit.labs.overthewire.org
+
+There! Now we just connected to the server and also passed the username that you
+wanted to use to login! Now, is there an option to pass the password for that 
+username? No, don't be dumb! If you tried to do this, you would be typing your
+password, visable on screen.
+
+Now then, we connected, what do you see? It should look something like this:
+	The authenticity of host 'bandit.labs.overthewire.org (178.79.134.250)' can't be established.
+	ECDSA key fingerprint is 05:3a:1c:25:35:0a:ed:2f:cd:87:1c:f6:fe:69:e4:f6.
+	Are you sure you want to continue connecting (yes/no)?
+
+Okay, so what does all of this mean to us? This is the server we connected to, the
+IPv4 address we connected to, and our computer is telling us that we don't know what
+this connection is. How does our computer know whether or not this server is known
+or not (and why if we type "yes" to continue does our computer not give us this
+message the next time we try to connect)? Well the answer lies in ssh configuration
+files (which I said I wasn't going to talk about, but I guess I have to touch now).
+
+Wherever your ssh files are stored (if you are on a Linux box, they are usually in
+your home directory, but hidden. If you are not familiar with this concept, look up
+user configuration files), there should be a "known_hosts" file. If this is your
+first time using ssh, there may be only one line, which contains the same
+information that was printed to your screen: the domain name, the IPv4, and the key
+fingerprint (SSH stands for secure shell; there needs to be some sort of crypto-
+graphic hash function).
+
+Alright, so now you are prompted for a password, and you login to see this:
+	bandit0@melinda:~$
+
+Congratulations, you have successfully logged into the server and are ready to 
+move on to the next level. Read the readme file, copy the contents, and you are
+ready for level1!
