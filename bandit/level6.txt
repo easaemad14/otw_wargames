@@ -1,0 +1,30 @@
+Alright, so I don't need to do a write up for this one because it was just like the
+last level and you have already completed it, right? Since I already starting
+typing, I will go ahead and do it anyway ;)
+
+So this problem is almost identical to the last, with the exception that now we
+have to find the directory (it isn't just sitting in $HOME for us). So we know it's
+somewhere on the server (Linux file hierarchy is simple, and if you are not yet
+familiar with it, I would suggest a quick read of why it is so wonderful), and we
+also know the owner (or user), the group (or group user), and the exact size. With
+all of this, we use the following command, and what do we see?
+	find -user bandit7 -group bandit6 -size 33c | less
+
+I went ahead and piped (|) this to less, so that I could scroll through the output
+expecting that it wasn't just going to be one file this time. Luckily, it was still
+only one file, but there was some new output that we have yet to see. The page 
+should have filled up with a bunch of error messages stating that the permission
+was denied. This is due to you not having read writes. To demonstrate, you will
+notice the line /var/tmp has the permission denied error, so let's take a look at
+that directory. Using the command "ls -al /var", I see the complete list of all (a)
+files in the directory in long (l) format. Here's the line containing the tmp
+directory:
+	drwxrwx-wt 27 root     root     36864 Mar  3 02:12 tmp
+
+You'll notice that root is the owner and the group user, and that for all other
+users there is a dash in place of the 'r'. This is what we expected from the error
+message!
+
+Now, if we scroll up on the output to less, we see that there is only one file, and
+reading that file will give you the correct password for the next level! Alright, I
+know you are starting to have some fun, so let's keep working through these!

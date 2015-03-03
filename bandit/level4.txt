@@ -1,0 +1,50 @@
+Alright, more fun Linux commands. Just like the last one, there is a "inhere"
+directory, but this time there are a number of files (looks like a total of 10 to
+me), and the one we are looking for is the "only human readible one", which I took
+as a challenge :)
+
+When we look at the files in the "inhere" directory, you should see something like:
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file00
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file01
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file02
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file03
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file04
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file05
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file06
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file07
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file08
+-rw-r----- 1 bandit5 bandit4   33 Nov 14 10:32 -file09
+drwxr-xr-x 2 root    root    4096 Nov 14 10:32 .
+drwxr-xr-x 3 root    root    4096 Nov 14 10:32 ..
+
+Now, in order to find the FILE type that is readible by us humans, we use the
+"file" command (if I haven't stressed this enough, man pages are your friend). My
+input and the corresponding output was as follows:
+bandit4@melinda:~/inhere$ file ./-*
+./-file00: data
+./-file01: data
+./-file02: data
+./-file03: data
+./-file04: data
+./-file05: data
+./-file06: data
+./-file07: ASCII text
+./-file08: data
+./-file09: data
+
+What this is doing is recursively determining the file type of each file (if we had
+a directory with more files in this directory, it would keep walking through those
+as well) in this directory. If you remember from a couple levels back, the '-' char
+is usually evaluated as an option, so you you didn't include the './', the file
+command would think that you were trying to use the '-f' option. 
+
+The '*' is a wildcard, which basically says that any combination of characters and
+letters that follow a dash (since this was the first char in our path) should be 
+included. You could also do something like "file ./-file0?", which would do the
+same thing, but I'm too lazy to write the extra four characters, and there was no
+need to be more specific since we wanted to check all of the files in this 
+directory. 
+
+So, from the output, you see that "-file07" is the file that you want, so you read
+the content and are ready for the next level, right? Okay, awesome; let's keep
+going!

@@ -1,0 +1,37 @@
+Alright, I hope you are comfortable with reading man pages, because this next level
+is going to test that! The command that we are going to use for this level will be
+the "find" command, which is pretty extensive.
+
+So the three conditions that we are given for the file that we are looking for are
+as follows:
+    -- Human readible
+    -- 1033 bytes (characters) in size
+    -- not executable
+
+With all three of these conditions, it should not be a problem to filter through
+all of the files that are contained in the inhere directory. I am going to add the
+three of these in conditions in the same quick search, but I want to make note that
+if you are doing these for a competition or something, you will want to do whatever
+is quickest for you. For example, maybe you could narrow the number of files down
+significantly just by checking all of the files that are of size 1033 bytes. You
+could pipe this into another command, or just redirect the output to a new file and
+if this doesn't solve it on it's own you could work your way down from there.
+
+The command that I used from the $HOME (~) directory was "find inhere -type f ! 
+-perm 111 -size 1033c". Looking that the man page, you should be able to figure out
+the following:
+    --find is the command that we are using
+    --type f is the option "type" (for file type) and f means regular file
+    --! perm 111 means not (logical) permissions 111 (executable)
+    --size 1033c specifies the size of the file in characters
+
+Luckily, the output for this lengthy command was only one file, therefore I didn't
+have anything else that I needed to do! Just to verify, running file on the file
+that was found gave me the following: 
+    inhere/maybehere07/.file2: ASCII text, with very long lines
+
+This means that it is human readible, and opening this file, you should see a
+string much like the others, and you now have the password for the next level! If
+all of this makes sense, then the next level should be easy enough for you to 
+complete on your own. Make sure that you understand the man pages and I'll see you
+on the next level!

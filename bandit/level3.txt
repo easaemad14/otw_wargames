@@ -1,0 +1,7 @@
+So now you see that ~/inhere is a directory, and you tried to ls the contents and
+didn't see anything. This is because there is a hidden file (starts with a '.' in
+Linux) called hidden. So when you ls the directory, be sure to use the all option
+(-a) to see everything. 
+
+If this is new to you, you will become familiar with these pretty quickly if you
+start messing with configuration files and such.
