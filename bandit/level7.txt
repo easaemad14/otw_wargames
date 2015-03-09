@@ -1,0 +1,16 @@
+Alright, so we are still learning some basic UNIX/LINUX commands. For this level,
+you will find the file "~/data.txt", which has quite a few lines of text with each
+line containing an English word followed by a possible password for the next level.
+
+The easiest way to do this is to use the "grep" command (you will probably become
+very familiar with this command). Using the following command will give you the
+output that you are looking for:
+	bandit7@melinda:~$ grep millionth data.txt 
+	millionth       cvX2JJa4CFALtqS87jk27qwqGhBM9plV
+
+"millionth" is the keyword that you are looking for, and data.txt (assuming you are
+in the directory containing the file) is the file you want to look through. The 
+second line outputs the contents of the line with the matching pattern. 
+
+And there you go; you now have the password for the next level so let's keep on
+going!

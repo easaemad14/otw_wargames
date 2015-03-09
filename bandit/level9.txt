@@ -1,0 +1,17 @@
+Alright, so let's take a look at a new (probably one of the most widely used) UNIX
+command: strings. 
+
+The strings command (by default) will print out a series of printable characters
+that are at least 4 characters long. This file was not too long, so you could
+probably have just opened it with your favorite text editor (VIM), and searched for
+a few '=' characters, but the point of these are to learn new commands. 
+
+Using our new command strings, and prior knowledge of pipes, the following command
+should give you the line (I chose the one with the password that looked most like
+other passwords that we have used thus far) containing the password for the next
+level: 
+	strings data.txt | grep ===
+
+The goal stated that the line began with "several '=' characters", so piping the
+output to the grep command (searching for a few '=' characters) should give you the
+lines that contain at least three '=' characters.

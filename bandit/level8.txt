@@ -1,0 +1,26 @@
+What you should learn doing this exercise is VERY IMPORTANT, so make sure you under-
+stand the concept.
+
+Most of the time, you will need to combine tools that you have at your disposal in
+such a way to complete a task. In this exercise specifically, we need to SORT the
+lines of the ~/data.txt in such as way that we only want to output the UNIQUE lines
+contained in the file. Based off of the words in the last sentence that were
+emphasized, you may be understanding what commands you will need in order to obtain
+the next password: sort and uniq.
+
+Okay, so how do we combine commands in such a way that the output of one command is
+used as the input of another command? This is the important concept of this level,
+and the answer (in case you didn't read the "Helpful Reading Material" section) lies
+in pipes (|). Let's try and understand the following command in great detail: 
+	sort data.txt | uniq -u
+
+By default, sort does not have an option for output and prints the output to stdout.
+Using piping (you may remember me using this in a prior level to pipe the output of
+a command to the "less" binary) will redirect the output to something else, and in
+this case that something else is the uniq command (as input). The '-u' option tells
+uniq to only print the lines that are unique (uniq isn't specific to just unique
+lines; it has other similar functionalities). Notice that we are not specifying an
+output file (uniq's syntax asks for an input followed by an output), therefore uniq
+prints to stdout. 
+
+Alright, we are about a third of the way there, so let's keep on keeping on!

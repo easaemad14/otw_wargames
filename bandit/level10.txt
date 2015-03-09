@@ -1,0 +1,10 @@
+Alright, so the password for the next level is stored in the data.txt file, which
+contains base64 encoded data. Can you guess which command from the list you may
+need in order to complete this level?
+
+If you grew up watching Dora the Explorer, and therefore have been trained to yell
+the answer outloud at a screen, then I expect that not only did you yell out base64
+but also looked up the syntax for base64 on the man page, right? If you did, then
+you are aware that there are only like five different options for this binary, and
+the one that you want is decode: -d. So the command "base64 -d data.txt" should
+give you the password for the next level!
