@@ -1,0 +1,21 @@
+Alright, let's learn the new command "tr" and have some fun with cryptography in the
+most basic use of the concept: rotations.
+
+The file contains the message "The password is ...", but this string has been trans-
+formed (or rotated) from the standard mapping (a-z) to the new mapping 13 characters
+down the line (n-za-m). What this means is if you have the letter 'a', it becomes the
+letter 'n' after the transform, the letter 'b' becomes 'o', and the letter 'n'
+becomes 'a', this is why they call it a rotation because you can picture the letters
+in a circular manner.
+
+tr is the new command which will make this easy for us. Using the following command
+should get you the right output: 
+	cat data.txt | tr 'N-ZA-Mn-za-m' 'A-Za-z'
+
+What this does is reads the contents of data (if you forgot cat, you might want to
+look it up because you will use this a lot when accessing files), and pipes the out-
+put to tr, which takes all of the 52 characters 'N-ZA-Mn-za-m' and translates them
+into the 52 characters 'A-Za-z'.
+
+Now that you have the password for the next level, let's keep moving since these are
+starting to get interesting!

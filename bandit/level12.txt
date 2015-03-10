@@ -1,0 +1,57 @@
+Alright, now it is starting to get a little tricky, so let's do a step-by-step on
+this one together.
+
+So we start with a .txt file (which is actually a hexdump of a file that has been
+repeatedly compressed (and they aren't telling us how, but we will get to that).
+Let's copy this file into the /tmp directory that they provided for us. 
+
+Okay, so you have made your own directory (don't forget the name! You may or may
+have not noticed that you do not have read privileges of this directory since
+everyone is posting their work here, so if you forget the name of the directory,
+there will not be a way for you to search for it) and have copied the data.txt file
+there, right? Let's take this hexdumped file, and unhexdump it with the xxd command
+and call the output file "tmp" until we know what we will do with it:
+	xxd -r data.txt tmp
+
+Now we have our file and we know it has been compressed, but we don't know what
+compression method was used, so how do we decompress? Well if you remember the 
+"file" command from earlier in this series, you can easily figure out the type. But
+how does "file" know the file type? The answer lies in magic numbers 
+(https://en.wikipedia.org/wiki/Magic_number_%28programming%29)! A quick glance at
+the file format for gzip (http://www.gzip.org/zlib/rfc-gzip.html#file-format) will
+tell you that the first two identifier bytes should be '1f' and '8b'. But, if you
+hexdump the file, you should see that this is backwards; the first four numbers are
+'8b1f'. Why is this? This machine we are running on must be Little Endian
+(https://en.wikipedia.org/wiki/Endianness). 
+
+Alright, enough with the technical stuff; let's get back to it. We need to rename
+our file to a format that gzip will recognize, so let's do that and then unzip with
+the following command:
+	gunzip gzipped.gz
+
+This will uncompress our file, and move the contents to the file of the same name,
+so you should see a file named "gzipped" (or whatever you decided to call it with
+the extension missing). Alright, now you will notice that we have a bzipped file, 
+so the process will be the exact same, but you will need to rename the file with a
+different extension. I'll leave this bit to you to make sure that you understand
+what we are doing (as well as the next step, because it is the same as the first
+step: you should have another gzipped file).
+
+Alright, now you should have yourself a nice tarballed file! There's something
+weird going on here, though; what do you notice about the contents of the tarball
+when you use hd on the tarball versus the tar command: tar -tf tarred.tar? You
+should see a discrepancy between these two outputs; the hexdump will show that
+there is a data5.bin, a data6.bin, and then something else (and if you remember
+your magic numbers, you'll notice that this is a bzipped file with the magic
+numbers 'BZ'). So why the discrepancy? If we extract the tarred file data5.bin, we
+should see why:
+	tar -xf tarred.tar
+
+Now we see that data5.bin is another tar (it was a tar within a tar). Is this the
+reason that listing the content of the tarball with the 'tar' command wouldn't
+work? I honestly don't know. I tried to see if I could find this somewhere, but I
+didn't get very far in my search. Sorry for the lack of answer, but after you
+extract what is in data5.bin (surprise, it's data6.bin! We saw this with hd), you
+can go ahead and unzip the bzip2 file by yourself, since we have done this before,
+and continue working your way through the files until you find the one you need
+(you're only a couple of files away at this point).
