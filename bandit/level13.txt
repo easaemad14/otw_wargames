@@ -1,0 +1,36 @@
+Alright, now we will begin with some network programming (this is where the fun
+starts)! I have no prior knowledge on what we are going to start delving into, so
+expect some delays since I will have to do some learning on my own prior to solving
+these problems and learning all of the basics from scratch. Also, while I am making
+excuses, I have also fallen a little behind on my school work (the joys of taking 17
+credit hours a semester, three of which have labs), so the write-ups will definitely
+have to be pushed back a little.
+
+Now that I have gotten that out of the way, let's take a look at this level and see
+what we are supposed to be learning. You may remember the write-up from the first
+level (level0) I touched the concept of SSH and keys. This may have been a little
+overboard for what we were doing at the time, but this should make this level a
+little more understandable. We are given the RSA private key that we will need in
+order to login to the server with bandit14's login. 
+
+Copy this file onto your computer (I'd suggest storing it where the rest of your
+SSH information is stored: ~/.ssh). Note, these keys are VERY SENSITIVE (this is the
+point of this level)! If anyone has access to your keys, they have access to your
+whole life (maybe not your whole life, but more of your life than you probably want
+just anyone to have access to)! So what am I trying to get at here? You need to make
+sure that your saved file has minimal permissions. I, personally, set the
+permissions of my saved file with the following command:
+	chmod 600 ~/.ssh/bandit_rsa
+
+'600' is the permissions of this file (after the command executes of course) in
+octal: https://en.wikipedia.org/wiki/File_system_permissions. Therefore, only the
+owner (that's you) has read and write access to this file. Okay, now let's see if we
+can login to bandit14's account with our new RSA key with the following command:
+	ssh -i ~/.ssh/bandit_rsa bandit14@bandit.labs.overthewire.org
+
+There you go; you are in and as you can see are logged into bandit14's account! Now
+open /etc/bandit_pass/bandit14 with your favorite text editor, copy the password, 
+logout of your session, and attempt to login back in without the RSA key. 
+
+There you go! Now you are ready to learn the basics of networking and how the
+internet works, as well as a few more Linux tools for connecting to other machines!
