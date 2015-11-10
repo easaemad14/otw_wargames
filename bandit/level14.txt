@@ -1,0 +1,38 @@
+Just moved to Oregon a few days ago, so I have a little time on my hands at
+the moment. I am continuing where we left off, and this one is pretty straight
+forward.
+
+In this challenge, you will need to connect to the bandit server (I couldn't
+remember the hostname because it's been so long since I have done any of
+these, so I had to look it up) and send the password (the same one that you
+used to log in) to the localhost port 30000. 
+
+In order to solve this one, I used telnet in order to connect to the port with
+the following command: bandit14@melinda:~$ telnet localhost 30000
+
+You should see the following out put if you typed this correctly:
+	Trying 127.0.0.1...
+	Connected to localhost.
+	Escape character is '^]'.
+
+If you see this, a successful connection has been made, and you should just be
+able to submit the password and hit enter.
+
+But what the shit does '^]' mean? Well, according to our old friend tldp.org
+(we referenced this website a while ago when trying to figure out why the
+command "cat" didn't work when trying to output our file '-'), the caret (^)
+"matches the beginning of a line, but sometimes, depending on context, negates
+the meaning of a set of characters in an RE", and brackets '[' and ']'
+"enclose a set of characters to match in a single RE." So putting the two of
+these together, we can see that '^]' is a fancy way of saying that we go to
+the next line, ending our regular expression. Or, I have no clue what I am
+talking about and all of that last paragraph was wrong. Either way, you
+learned something?
+
+Now, after submitting the password, you should see the following output:
+	Correct!
+	BfMYroe26WYalil77FoDi9qh59eK5xNr
+
+	Connection closed by foreign host.
+
+Now, let's do some work with SSL encryptions!

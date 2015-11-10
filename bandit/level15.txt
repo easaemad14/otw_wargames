@@ -1,0 +1,48 @@
+Much like the 14th level, we will be sending the password to a server running
+and receiving the password for the next level back.
+
+Hopefully you have referenced the openssl and s_client man pages for a quick
+reference on what you need to do for this one, because it is a little more
+involved than the last. Here is the command that you should type when
+successfully logged in: openssl s_client -connect localhost:30001.
+
+I am not going to cover all of the output here, because it is rather
+extensive, and most of it is really simple to look up for yourself (and this
+may help get you into the good practice of doing so), so let's look at the
+output when you send the password to the s_server:
+	HEARTBEATING
+	read R BLOCK
+	read:errno=0
+
+Alright, now what? We see that we are receiving an errno of 0 (which is not an
+error at all), and what is this "HEARTBEATING" message? The helpful note tells
+us to pass the '-quiet' option and read the "CONNECTED COMMANDS" section of
+the man page (all this section really tells us is that any session that has
+not had the -quiet or -ign_eof will restart the session if the first character
+of the line is 'R', and the session will be terminated if the first character
+of the line is 'Q' or 'EOF'), but why are we doing this? 
+
+The following snipet is from the openssl source code:
+	#ifndef OPENSSL_NO_HEARTBEATS
+		else if ((!c_ign_eof) && (cbuf[0] == 'B' && cmdletters)) {
+		BIO_printf(bio_err, "HEARTBEATING\n");
+		SSL_heartbeat(con);
+		cbuf_len = 0;
+		}
+	#endif
+
+So, you may (or may have not, if you've been living under a technological
+rock) have heard of the vulnerability "Heartbleed". In (very) short, this was
+a buffer over-read bug in the OpenSSL cryptography library which allowed for
+arbitraty code execution. What the above if-statement is doing is first
+checking whether or not we are interactively using openssl, '-ign_eof' or
+'-quiet' (which implicitly turns on -ign_eof), and then checks for the first
+letter of our command for the letter 'B'. This is a way for you to check
+whether or not your server is vulnerable to Heartbleed. Try running the
+original command again and just typing in the letter 'B'. Same output right?
+
+Alright, so to get the password, let's use the following command:
+	openssl s_client -connect localhost:30001 -ign_eof
+
+Now, you should have the password for the next file and be ready to do some
+port scanning!

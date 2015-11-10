@@ -1,0 +1,48 @@
+This one is a little more complicated than the last (especially if you attempt
+to read the man page for nmap, seeing how it is over 2000 lined long), but a
+nice combination of all of the tools that we have used thus far for the last
+few networking levels.
+
+First thing that we have to do is scan all of the ports between 31000 and
+32000, which we can easily do with the following command: nmap -p31000-32000
+localhost. This gives us the following output: 
+
+	Starting Nmap 6.40 ( http://nmap.org ) at 2015-11-10 05:19 UTC
+	Nmap scan report for localhost (127.0.0.1)
+	Host is up (0.016s latency).
+	Not shown: 996 closed ports
+	PORT      STATE SERVICE
+	31046/tcp open  unknown
+	31518/tcp open  unknown
+	31691/tcp open  unknown
+	31790/tcp open  unknown
+	31960/tcp open  unknown
+
+	Nmap done: 1 IP address (1 host up) scanned in 0.31 seconds
+
+The reason I do this step separately from this next step is the fact that the
+version detection option (-sV) takes a little time to do, so if we can
+minimize the number of ports that it has to look at, the less time I have to
+wait. Now, we can use this command to see if we can find which ports are
+"speaking" SSL: nmap -sV -p31046,31518,31691,31790,31960 localhost. This
+should give us output that looks something like this:
+	Starting Nmap 6.40 ( http://nmap.org ) at 2015-11-10 05:21 UTC
+	Nmap scan report for localhost (127.0.0.1)
+	Host is up (0.011s latency).
+	PORT      STATE SERVICE VERSION
+	31046/tcp open  echo
+	31518/tcp open  msdtc   Microsoft Distributed Transaction Coordinator (error)
+	31691/tcp open  echo
+	31790/tcp open  msdtc   Microsoft Distributed Transaction Coordinator (error)
+	31960/tcp open  echo
+	Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+This isn't exactly ideal, because we still don't know which port (31518 or
+31790) is the one that we are looking for, but we can definitely exclude the
+rest of them because we can easily see that they are just echoing back what we
+submit. Now we can use the following command, with the correct port number, to
+see if we have the correct port or not (this is the one that worked for me):
+	openssl s_client -connect localhost:31790
+
+And now we have the certificate, and we are ready to move onto some more Linux
+commands!
