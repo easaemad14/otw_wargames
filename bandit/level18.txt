@@ -1,0 +1,17 @@
+This one is not too difficult. As soon as we log in, the .bashrc file echos
+"ByeBye !" and exits, so we have no way to read what is in the file "readme"
+(or do we?). 
+
+Well of course we do; there is always a way! You may have noticed (or maybe
+you're reading this because you didn't) that the ssh command gives you the
+ability to execute a command on the remote host, in lieu of a login shell.
+Therefore, since we know the file that has the contents in it, we can simpy
+type: ssh bandit18@bandit.labs.overthewire.org cat readme
+
+What if we didn't know the exact file we wanted to read, how would we do this?
+Well, instead of letting the bashrc file run when we log in, why not just pass
+a shell command to start immediatly? When I issued the command "ls -al /bin/ |
+grep sh", it looks like we can either start bash or dash (rbash is symlinked
+to bash and sh is symlinked to dash). So you could easily replace the cat
+command with something a little more useful if they didn't make it so easy,
+but maybe that'll come up in the future.

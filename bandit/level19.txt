@@ -1,0 +1,8 @@
+Another level that isn't very difficult, but this concept is VERY important!
+
+I did a quick ls of /etc/bandit_pass to see the files, and found the file that
+we need to read. Then, all we have to do is type the following command, which
+will allow you to read this file that is owned (and only readable) by
+bandit20: ./bandit20-do cat /etc/bandit_pass/bandit20
+
+Let's move on, shall we? 

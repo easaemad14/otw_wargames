@@ -1,0 +1,19 @@
+Just a few more levels to go!
+
+First, before we start this level, if you don't rememeber how to ssh into a
+server with an rsa key, you may want to go back to the 13th level and check
+that out (or just read the ssh man page).
+
+This one is rather easy, and there are many ways to do this. My personal
+preference when using diff is to use the -y (or --side-by-side) option. So my
+command looked just like this: diff passwords.new passwords.old -y | grep "|".
+This will have the new file on the left, and the old file on the right ('|'
+would represent a change in the line, and '>' would represent an addition in
+the file to the right, where '<' would represent an addition to the file on
+the left in this version of diff). 
+
+Since there was only one line that changed (and we know from the puzzle
+description that this is the one that we are looking for), we now should have
+the password for the next level.
+
+We can only hope it'll be a little more difficult ;)

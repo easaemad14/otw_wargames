@@ -1,5 +1,5 @@
 So, another really easy one (I am starting to doubt that this one will be helpful
 for me at all, but I will try to keep going). 
 
-When there are spaces in the file name you need to put them in quotes. It's that
-easy. Read the file and get the password.
+When there are spaces in the file name you need to put the whole file name in
+quotes (or just escape the space, i.e. '\ ').
