@@ -1,0 +1,33 @@
+This is another level with some cronjob task, but there is much more to this
+than simply following files around. 
+
+First thing, we need to check the cronjob, and what it's doing:
+	* * * * * bandit23 /usr/bin/cronjob_bandit23.sh  &> /dev/null
+
+So far this looks like what we did in the last level, so let's check the shell
+script that is being executed on reboot:
+	#!/bin/bash
+
+	myname=$(whoami)
+	mytarget=$(echo I am user $myname | md5sum | cut -d ' ' -f 1)
+
+	echo "Copying passwordfile /etc/bandit_pass/$myname to /tmp/$mytarget"
+
+	cat /etc/bandit_pass/$myname > /tmp/$mytarget
+
+Alright, so we are executing this shell script which creates a variable called
+"myname", which is the name associated with the effective user id, and another
+variable that contains something a little more complicated. Looks like we are
+piping the string "I am user $myname" into a program called md5sum, and then
+cutting the string at the first space (' ') and storing the first field into
+our variable called "mytarget". Finally, it prints a message to let you know
+what it is doing, and then puts the password of the name into a file called
+/tmp/$mytarget.
+
+Easy enough, right? Now all we need to do is get the password for bandit23, so
+running the following command should give us the file name that contains our
+password: 
+	echo I am user bandit23 | md5sum | cut -d ' ' -f 1
+
+This will output our file name to stdout, and all we need to do is read that
+file that is stored under the tmp directory.

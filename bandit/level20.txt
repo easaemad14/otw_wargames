@@ -1,0 +1,31 @@
+Now, let's try something with networking and setuid!
+
+For this level, we need to use netcat in listen mode in order to get a message
+back (the password for the next level) from a port or our choosing. Because we
+have the ability to choose any port that we want, let's make sure that the
+port we choose isn't already in use: nmap -p1000-2000 localhost.
+
+This listed all (two) of the ports that were in use between 1000 and 2000, so
+I can go ahead and pick any port that I want that isn't 1111 or 1840. This is
+what my netcat command looked like:
+	echo GbKksEFF4yrVs6il55v6gwY5aVje5f0j | netcat localhost 1234 -l
+
+I bet you thought I was going to use port 1337, right? I wanted to leave it
+open for all of the s|<rIpt kIddi3s ;)
+
+Alright, now that we sent our current password to port number 1234, we just
+need to connect our setuid bin to that port, and we should be good to go:
+	
+
+I bet you thought I was going to use port 1337, right? I wanted to leave it
+open for all of the s|<rIpt kIddi3s ;)
+
+Alright, now that we sent our current password to port number 1234, we just
+need to connect our setuid bin to that port, and we should be good to go:
+	./suconnect 1234 
+	Read: GbKksEFF4yrVs6il55v6gwY5aVje5f0j
+	Password matches, sending next password
+
+Now that we know that we sent the correct password, you can go back to the
+session that is running your listening netcat and you should have the password
+printed to stdout and ready to go!

@@ -1,0 +1,23 @@
+Alright, some introduction to cron jobs!
+
+What the heck is cron? To be honest, nobody really knows. I like to think that
+it was named after Chronos, but there are also people that like to think that
+it is an acronym (because you know how much we love them in *nix).
+
+A quick list of the contents in the cron directory shows that there is a cron
+job called cronjob_bandit22 that is doing the following: 
+	* * * * * bandit22 /usr/bin/cronjob_bandit22.sh &> /dev/null
+
+The asterisks tell us that this occurs on reboot, so we know that we are good
+to go since the server is up. It also tells us that bandit22 is running a
+command and redirecting the stdout and stderr to /dev/null. So what's in the
+shell script:
+	#!/bin/bash
+	chmod 644 /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+	cat /etc/bandit_pass/bandit22 > /tmp/t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv
+
+Now we are getting somewhere. There is a file called
+t7O6lds9S0RqQh9aMcz6ShpAoZKF7fgv that has read access by everyone, and the
+contents of /etc/bandit_pass/bandit22 are being put into that file. Well,
+since it is the password that we are looking for, let's copy the contents of
+the file and move on to the next level.
