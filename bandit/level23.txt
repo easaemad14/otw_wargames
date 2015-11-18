@@ -1,0 +1,51 @@
+Now, we get to have a little fun writing shell scripts (so you may want to
+look at the last two levels to make sure that you fully understand what they
+were doing in their scripts).
+
+Looking at the cronjobs in the /etc/cron.d directory, we can see that there
+are actually two different jobs running for the next level, but one of them is
+root: /usr/bin/cronjob_bandit24_root.sh. We will not be able to see what this
+is doing, so let's just look at bandit24's job, which should look something
+like this:
+	#!/bin/bash
+
+	myname=$(whoami)
+
+	cd /var/spool/$myname
+	echo "Executing and deleting all scripts in /var/spool/$myname:"
+	for i in * .*;
+	do
+		if [ "$i" != "." -a "$i" != ".." ];
+		then
+			echo "Handling $i"
+			timeout -s 9 60 "./$i"
+			rm -f "./$i"
+		fi
+	done
+
+Since this script is executed every minute by bandit24, we can see that we
+need to write an executable in the directory /var/spool/bandit24 that will do
+something for us (with bandit24 permissions). Usually we are trying to get the
+password for the next level, so let's try to do that!
+
+I went ahead and created a directory to work in (although this is not
+necessary, it'll make it easier), so that if it executes my script (which is
+then deleted) and doesn't do as I expected, I can easily modify my script and
+try again. And, yes, I had a few problems with this level, so there were many
+instances when I had to do this myself. When I create my directory, it has the
+following permissions by default: drwxrwxr-x. This is a problem when we do
+this as bandit23 because we need everyone (bandit24) to be able to write to
+this directory, so we need to add the write permission.
+
+Alright, now we just need to write our shell script and we should be ready to
+go: 
+	#!/bin/bash
+
+	touch /tmp/eazy24/24pass
+	chmod 664 /tmp/eazy24/24pass
+	cat /etc/bandit_pass/bandit24 > /tmp/eazy24/24pass
+
+Now, all we have to do is copy this file into the /var/spool/bandit24
+directory, and then change the permissions of the file to be executable, and
+then we have a maximum of one minute until our file 24pass is available in our
+directory (with the password of the next level).

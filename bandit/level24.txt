@@ -1,0 +1,31 @@
+Now we have a fun one to do with some brute-force logic.
+
+Before we start, I need to say that this needs to be done with extreme
+caution, or else you may do some unwanted damage. Initially I set my bash
+script to execute as many instances as it could (forked multiple different
+commands), as well as doing some greping of output, and I unintentionally
+caused forking errors where the system couldn't handle all of the commands
+that I had running, so please learn from my mistakes when doing this level.
+
+So we are going back to do some network stuff, and we need to send the current
+password, as well as a four digit pin (0000-9999) to the port 30002 on
+localhost. I did this by doing the following:
+	#!/bin/bash
+
+	touch /tmp/eazy24sol
+	chmod 664 /tmp/eazy24sol
+
+	for i in {0000..9999}
+	do
+		echo UoMYTrfrBFHyQXmg6gzctqAwOmw1IohZ $i | netcat localhost 30002 >> /tmp/eazy24sol
+	done
+
+What this is doing is assigning a value from 0 to 9999 to i (our four digit
+pin), and sending that to the port. The output is then appended to the file
+/tmp/eazy24sol, which was created and permissions were set at the beginning of
+the file. Once this script is done running, our file just needs to be filtered
+for the password that was somewhere in this range. We can use our old friend
+'uniq' for this with the following command:
+	sort /tmp/eazy24sol | uniq -u
+
+Now you should be ready to move onto the next level.

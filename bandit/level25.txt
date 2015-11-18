@@ -1,0 +1,47 @@
+Last level, let's see what's in store for us before we move on!
+
+As soon as we log into bandit25, we see that we are givin the ssh key that we
+need in order to log into bandit26; there's no way that it's that eazy. The
+goal warns us that bandit26 doesn't use bash as it's login shell, so before we
+attempt to make connection, let's figure out what command is executed on login
+with the following command: cat /etc/passwds | grep bandit26.
+
+This shows us that bandit26 actually executes, what happens to be, a shell
+script: /usr/bin/showtext. The contents of this file looks like this:
+	#!/bin/sh
+
+	more ~/text.txt
+	exit 0
+
+This seems a bit odd, and bandit25 does not have read access to this file, so
+it looks like we have to ssh into bandit26 to see what is actually going on. 
+
+Once we do so, we see that text.txt in bandit26's home directory is an ASCII
+art of itself:
+	  _                     _ _ _   ___   __  
+	 | |                   | (_) | |__ \ / /  
+	 | |__   __ _ _ __   __| |_| |_   ) / /_  
+	 | '_ \ / _` | '_ \ / _` | | __| / / '_ \ 
+	 | |_) | (_| | | | | (_| | | |_ / /| (_) |
+	 |_.__/ \__,_|_| |_|\__,_|_|\__|____\___/ 
+	Connection to bandit.labs.overthewire.org closed.
+
+This is a bit cheeky; how do we get around this? Well the 'more' command will
+actually only output as much as it can on the screen, so we need to trick it
+from thinking that it's done by making our window less than six lines long (if
+I counted correctly). 
+
+But that doesn't exactly solve our problem, because we still need to be able
+to read the password that is stored in the /etc/bandit_pass directory. A quick
+read of more's man page (I actually don't use it regularly) tells us that we
+can start up a visual editor with the 'v' key.
+
+The current visual editor that is set by default is vim, so now you have full
+access to vim commands, such as the 'set' command, which is the one that I
+used to change the shell to bash (:set shell=bash). This allows you to now
+type the command ':shell', which will now jump into a brand new bash session,
+where you can read the current password, and the README file under the home
+directory which congratulates you on completing all of the currect levels (if
+you happen to complete these before they come up with more for bandit).
+
+Next, I will tackle the Krypton levels, and work my way on from there.
