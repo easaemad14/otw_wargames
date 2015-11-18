@@ -1,0 +1,4 @@
+In order to complete this level, translate (tr) the text from the krypton2
+file using rot13:
+	cat krypton2 | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+
