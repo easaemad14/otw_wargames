@@ -1,0 +1,14 @@
+Alright this one is not too difficult either. In their example, however, they
+have the plain text in lower case, which is NOT what you want. You want the
+end password that you get to be in all upper case (much like all of the
+passwords that you have received up to this point).
+
+I would follow all of the steps in the README file (and make sure you
+understand what you are doing when you issue those commands), with the
+exception of encrypting the random file that they use, make your own test file
+(I used echo {A..Z} > test), where test file is then encrypted so that I can
+see every single mapping for each letter.
+
+Doing this, I see that the map is just shifted 12, so I can reverse the
+process with the following command:
+	cat /krypton/krypton2/krypton3 | tr 'M-ZA-L' 'A-Z'

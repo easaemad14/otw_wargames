@@ -1,0 +1,21 @@
+Alright, a fun one!
+
+I have included a couple of files with this write-up: crak4.c, which I used to
+count all of the letters in all of the found files (as well as bigrams), and
+mytr.sh, which I used for testing since all of this was done manually (and
+there was a lot of trial and error).
+
+After running the ELF file from crak4.c, I was able to note all of the
+occuring letters and bigrams, as well as the number of instances of each.
+After I did this, I was able to compare it to the expected occurances (I
+referrenced this website:
+http://practicalcryptography.com/cryptanalysis/letter-frequencies-various-languages/english-letter-frequencies/
+
+After doing this, I was able to do a little trial and error to match the
+letters, until English words started to become more prevalent (at which point
+I could pick out the letters that were expected). As I did this, I used the
+shell script to translate the letters for me with each increment that I
+completed. 
+
+After all of the letters were accounted for, I copied the conversion at the
+bottom of the shell script, put the text to upper case, and printed it out.
