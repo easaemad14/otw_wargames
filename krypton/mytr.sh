@@ -1,12 +1,16 @@
 #!/bin/bash
 
+# First I should clean my directory
+rm /tmp/eazyk4/*
+
 # My tmp file is /tmp/eazyk4
 cp /krypton/krypton3/found* /tmp/eazyk4/
 
-# Remove the spaces (they are currently in groups of five)
+# Variable containing all of the encrypted files
 FILES=/tmp/eazyk4/found*
 
 # Remove all spaces, then fill in the table of characters to replace
+# These were found by trial and error, using the crak4.c file
 for file in $FILES
 do
 	sed -i.old $file -e 's/ //g'	\
@@ -68,4 +72,4 @@ sed -i.old /tmp/eazyk4/krypton4 \
 	-e 's/I/v/g'		\
 	-e 's/P/z/g'
 cat /tmp/eazyk4/krypton4 | tr '[:lower:]' '[:upper:]'
-echo
+echo # Newline
