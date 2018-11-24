@@ -5,9 +5,6 @@ Vigenere cipher (and all crytanalysis problems in general) is the key. Since thi
 problem is the same as the last with the added step of repeated substitution, all
 we need to do is do frequency analysis on each column (one through six).
 
-Looking back at how I solved level3, I made life way too difficult (and did it
-incorrectly) with my translation Bash script; this is a simple translation.
-
 If you look in the level4 directory, you'll see that there are two c++ files (I've
 become a fan of c++ since working in the real-world): fa.cpp which is used to do
 frequency analysis on a per-line basis, and deVig.cpp which allowed me to
