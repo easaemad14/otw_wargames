@@ -4,15 +4,13 @@ My boy Willy Friedy invented the technique of coincidence counting, according to
 Wikipedia; this is what I used to determine the size of the key.
 
 The calculation is linked in the .cpp file, but it took me a day to wrap my head
-around Index of Coincidence and how to apply it to determine the key length. The
-key to this was line (from the same Wikipedia page) "if we compute the aggregate
-delta I.C. for all columns".
+around Index of Coincidence and how to apply it to determine the key length.
 
 Looking at calcICFromKey, you see that I create a vector of strings of length len
 long, but then I create a new string for each column and determine the I.C. from
 each column string.
 
-You can see from the ic.out that the 9 and 18 lengths seem to be closest to the
+You can see from the ic.txt that the 9 and 18 lengths seem to be closest to the
 normalized I.C. from English: 1.73. Starting with 9, I modified my found files to
 work with the fa.cpp and deVig.cpp files from the last level to work with the
 key KEYLENGTH, and we got the secret key!
