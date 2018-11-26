@@ -1,0 +1,49 @@
+The last problem of this wargame is one of the easier ones; don't let the wording
+from the README fool you.
+
+As you can probably tell by now, all ciphers are weak when you are able to gather
+enough information about them, and this is no exception when dealing with streams.
+
+The first thing that I did was copied the password to my local text file so that I
+could modify the krypton7 text file (I tried to use the encrypt6 to read a file
+that I generated in `mktemp -d`, but I kept getting an error message that it
+couldn't open the plaintext. After this, I tried to copy all files into the temp
+directory, creating a symlink to the keyfile, but it didn't like that either. This
+may have been due to UID nonsense, so I gave up and modified the ciphertext file
+instead), used perl to generate a nice long string to test the limits of the
+cipher, and ran the encryptor.
+
+The perl command I used looked like this: perl -e 'print "P" x 256' > krypton7.
+The reason I put 256 'P's in this file was because 'man ascii' tells me that 'P'
+is 0x50, which has a hamming weight of two, making things easy to see if we are
+doing some crazy XOR operations on the string. The output I get is interesting:
+PPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+TXRISVNXNOZIWCHXGUMNREUJTDRZGC
+
+This is truncated to 30 bytes because this pattern repeated over this interval.
+Next, I did the same operation above with 30 'O's (a much higher hamming weight
+of 5) to see if there's a pattern here:
+OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+SWQHRUMWMNYHVBGWFTLMQDTISCQYFB
+
+This is interesting, it seems as though there is a pattern here, and it isn't
+as complex as I thought this would be. To ensure that this only works with ASCII
+characters, I added a couple different non-ASCII characters in front of my 'O's
+and these were skipped and the output didn't change. Copying this line into my
+Vim session and dumping with hd, the pattern looks like this (the ciphertext is
+only 15 chars long, let's truncate before hexdumping):
+50 50 50 50 50 50 50 50  50 50 50 50 50 50 50 |PPPPPPPPPPPPPPP|
+54 58 52 49 53 56 4e 58  4e 4f 5a 49 57 43 48 |TXRISVNXNOZIWCH|
+
+Finally, let's see if the output changes based off of the input (i.e. if we
+increment the prior character, does the offest on the next character differ?):
+PQRSTUVWXYZABCDEFGHIJKLMNOPQRS
+TYTLWATEVXJTIPVMWLEGLZQGRCRAIF
+
+Nope, I think this is the simplest stream cipher we can see. Let's take our
+ciphertext password and TRanslate each character with the mappings provided from
+out initial test, i.e. the first character 'P' translates from set [T-ZA-S] to
+set [P-ZA-O]. Doing this for all ciphertext characters, we get the following
+password: LFSRISNOTRANDOM.
+
+Let's move on to the next wargame!
