@@ -1,0 +1,11 @@
+Starting off leviathan, it looks like all of our work will be done in the home
+directory. Doing an ls of our home directory shows nothing....
+
+Hidden files in *nix land are preceeded with the '.' character. These are "hidden"
+because they are not usually shown. To see all, we can use the 'a' (to see "all")
+or the 'A' (to see all minus '.' and '..', current and parent directories,
+respectively) flags.
+
+"ls -Al" shows that there is a hidden directory called "backup", which contains an
+HTML document called bookmarks. Searching this file for anything "leviathan"
+related shows a password....

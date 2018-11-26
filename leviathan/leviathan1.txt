@@ -1,0 +1,21 @@
+For this level, we have a setuid ELF in our home directory, which looks like it
+give us some level two permissions if we get the password correct.
+
+Running the strings command, are are two strings that catch my eye: "love" and
+"getchar".
+
+Since "love" was the first string to catch my eye, I tried this password: nope!
+"getchar" is interesting, because this tells me that they are reading characters
+one at a time from stdin. Let's try to just enter no password, i.e. just hit
+return without any input.
+
+Hey, look at that! Whoever wrote this is expecting some number of characters and
+reads characters until length, in lieu of reading the whole line or breaking after
+the first character that doesn't match what's expected!
+
+Simply hitting enter three times tells me that the password is three characters
+long, hence why strings didn't show me the password: strings defaults to four
+characters.
+
+Now, let's show all strings of minimum length three: strings -n 3 check. We have a
+couple more English words now: sex and god....
