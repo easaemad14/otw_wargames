@@ -1,0 +1,5 @@
+When we run this one through ltrace, it looks like it tries to open a file at
+/tmp/file.log.
+
+What we really want it to do is open our password file, so let's create a symbolic
+link to our password file called /tmp/file.log.

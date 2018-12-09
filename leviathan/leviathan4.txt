@@ -1,0 +1,4 @@
+We covered hidden files in level0, and here we see another instance of this.
+
+In our hidden trash directory, there's a setuid bin which dumps out some binary
+numbers. Put these through a binary to ascii converter and see what you get.

@@ -1,0 +1,30 @@
+So for this last problem, it seems that we require a four digit key to get the
+password. We could always brute force this and try all four digit numbers, but
+where's the fun in that? Let's learn some gdb to figure out what's going on.
+
+First step I took was to figure out where the program starts with the following
+command: readelf -h leviathan6. This outputs the Header data, and we now have the
+entry point. Let's debug this with: gdb ./leviathan6
+
+Before we run, we need to set our arguments (some four digit key) and set our
+breakpoint to the entry point with the following command: break *<address>
+
+After starting the program with the "run" command, we find the address of main
+just before the call to __libc_start_main. Set a break there and continue.
+
+Next, let's disassemble the main function to see what values we are comparing.
+From the first page, I see a compare about halfway down. A couple instructions up,
+I see that we push eax onto the stack and call the atoi glibc function, %eax
+contains our value. The value of interest is located in the other register (for
+me, this was -0xc(%ebp). Let's set a break point at the compare instruction so
+that we have the base pointer correctly set and continue to that instruction.
+
+Now, if I I look at what's stored at that offset from the base pointer with the
+following command, I should have the key value: x/d $ebp-0xc. You can type "help x"
+to get a more verbose explanation of this command, but this basically is a very
+useful memory examination command.
+
+Actually, if you look a few instructions up, you'll see that we moved the key into
+this same location (which you could use a calculator to convert from hex to see
+that this is the same value). Rerun the program with this key value, and you should
+have access to an escalated shell!

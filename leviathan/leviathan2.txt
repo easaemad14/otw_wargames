@@ -1,0 +1,50 @@
+Alright, time for a fun one!
+
+So we have a setuid file that's owned by level3 and level2 has group access. Let's
+take a look at what's going on with ltrace if we try to use this to print the
+contents of the /etc/leviathan_pass/leviathan3 file that we are trying to get into.
+
+Note, I used here because this is a little more helpful. strace is a default, but
+system calls won't be shown with strace (because s(ystem)trace shows system calls).
+If you need system calls (as well as library calls), use ltrace -S.
+
+Another note, all tracing tools, by design, strips the setuid flag due to the way
+that they interject; any id getter will return the user that ran [lsp]trace and
+not the actual ELF file.
+
+As you can see, "printfile" calls access on the file to ensure you (leviathan2)
+have access to this file and then, after setting the UID, uses a system call of
+the "string" that you passed as the first argument. There are two vulnerabilities
+that I see here: formatted string attack and a privilege escalation attack.
+
+Both of these attacks are very common and easy to spot (I actually spent weeks
+scrubbing formatted string attacks from production code a couple months ago, so
+this stood out like a sore thumb) so you should make sure you fully understand all
+of this.
+
+The first thing that I tried was to exploit the privilege escalation. There are
+problems with this, however. First, we need to understand how to take advantage of
+this in terms of how the program works. "printfile" calls access (according to the
+man page, "If pathname is a symbolic link, it is dereferenced". Due to this
+feature, if we create a symlink to the password file, access will fail. Therefore,
+we will need to take advantage of the fact that cat is called through a system
+call anyway (like naming a file with a space so that the glibc access call will use
+the file, but the system call to cat will think this is two files).
+
+The next problem is inherent in our environment. Since our current directory
+(/home/leviathan2/) is owned by root:root, we don't have access to create files
+here. If we create a temporary directory with "mktemp -d", this directory is owned
+by leviathan2, so the cat of our symlink will fail because we can't read this file.
+
+So, let's look at a formatted string attack. In order to exploit this, I created a
+temp directory and used the following command to name a file called pass;bash:
+touch pass\;bash
+
+Notice that I have to use the '\' character to tell bash to not use this character
+(this is the bug in the system call). Now, when I use the command
+"/home/leviathan2/printfile pass\;bash", you'll notice that I get a "Permission
+denied" when trying to read file "pass" (for reasons noted above) and our prompt
+has changed to show that we are leviathan3. If you do an "id" you'll notice that we
+have leviathan3's UID and our group ID and groups have not been changed.
+
+Now you should be able to read the password file for leviathan3 without any issue!

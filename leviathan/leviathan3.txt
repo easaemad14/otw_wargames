@@ -1,0 +1,9 @@
+This is an easy one; let's start with ltrace like usual.
+
+So the first thing we see is a strcmp between two very different strings and then
+we are prompted for a password. Hitting the return to continue, it seems as we then
+check what we entered "\n" against another string: "snlprintf\n".
+
+If we run through these steps again using the string "snlprintf" before hitting
+return, it seems as though we get a shell with escalated privileges! Now we can cat
+the password file for leviathan4 and we're done!
