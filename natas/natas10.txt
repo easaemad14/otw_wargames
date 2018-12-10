@@ -1,0 +1,3 @@
+They are trying to be tricky, but I'm trickier.
+
+Let's use the passthru command to grep a different file

@@ -1,0 +1,1 @@
+Man xxd, rev, and base64, respectively

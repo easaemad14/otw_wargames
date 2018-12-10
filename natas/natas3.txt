@@ -1,0 +1,2 @@
+How does Google find page content? How do pages politely request bots to not index
+pages?
