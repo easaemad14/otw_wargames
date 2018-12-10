@@ -1,0 +1,37 @@
+This level is much more involved than all the others, so I'll go into a little more
+detail on how to go about this. For all PHP code that was written, I used an online
+PHP editor to output values for me. The same was done for the XOR operation.
+
+If you've been reading all of these in the order that I have done them, then you'll
+know that XOR is a common encryption technique in modern ciphers because it allows
+the encryption and the decryption to be the same process. All encryptions require
+some level of entropy, in most modern encryption methods, we put this randomness in
+the key itself. Take a look at the Krypton levels for a more verbose explanation on
+some of these ideas.
+
+On this page, we are greeted with a message stating "Cookies are protected with XOR
+encryption", so we can assume that we've got a cookie that needs to be evaluated
+with the source code.
+
+Looking at the source code, we load some data by checking the cookie for the "data"
+field and if it's well-formed, we set the data accordingly and display the content.
+After all of this is done, we "save" the data by setting the cookie with the
+following algorithm: encode the array to JSON, xor with the censored key, and
+encode the whole thing in base64.
+
+Since we know that cipher-text XOR plain-text will output the key, we need to take
+a couple steps to figure out the key. First, the cookie will need to be decoded
+with base64 and we will need to get the known JSON message for the current cookie
+for a sanity check. The known json array should look like this (you can use a PHP
+editor to verify): {"showpassword":"no","bgcolor":"#ffffff"}
+
+At this stage in the process, both of these are XORed with the censored key, so
+XORing them now should produce the key. Using an online XOR calculator, I get the
+following output in ASCII: qw8Jqw8Jqw8Jqw8Jqw8Jqw8Jqw8Jqw8J.... It seems as though
+we have a repeating "qw8J"; this must be the key.
+
+Plugging in our guessed key with the xor_encrypt function provided, I successfully
+duplicate the cookie, so I know that this key is correct! Now all that needs to be
+done is for me to change the JSON message to "showpassword":"yes" and replace my
+cookie before refreshing the page. You should now have the password for natas12
+displayed on the page!
