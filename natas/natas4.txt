@@ -1,4 +1,4 @@
 You'll need to know a little about the HTTP header to solve this one. You'll notice
 that the visiting from field changes as you "refresh".
 
-Big hint: wget has an HTTP option "--referer"
+Big hint: curl has an HTTP option "-e, --referer"

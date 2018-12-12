@@ -1,3 +1,3 @@
 Another header problem: see Cookie.
 
-Pro-tip: when using wget, you can the -S flag to print headers
+Pro-tip: when using curl, you can the -v flag to print headers
