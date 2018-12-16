@@ -1,0 +1,20 @@
+This one is tricky; I had to cheat and check online for hints. This problem may
+look similar to natas10 because it's almost the same level, but we're going to
+learn the technique that we learned in the last level to help us solve this one.
+
+If we look at the source, we are passing one value for needle, which is going to be
+checked against a dictionary. We're limited on most special characters, but we can
+still inject commands. Let's try the following command and see what we get:
+curl -v -u natas16:WaIHEacj63wnNIBROHeqi3p9t0m5nhmh --data-urlencode
+"needle=$(echo ^hack)" natas16.natas.labs.overthewire.org.
+
+Cool, we get all words that start with hack, but how does this help us? Well, much
+like the last problem, we check if something exists. For example, if I grep for
+"hackersa", I shouldn't get anything from the dictionary.
+
+Looking at the Bash script that corresponds to this level, you'll get a better idea
+of how I went about this. The first thing that we do in inject the command:
+grep ^$PASSWORD$c $PASS_FILE. If this command fails, then we will just pass
+"hackers" along, which we will get a match from the dictionary. If the prior grep
+command works, however, our password that matches will be appended to "hackers" and
+we should not expect a match from our dictionary.

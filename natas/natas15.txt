@@ -1,0 +1,23 @@
+This one is much like the last one, except we don't get the password supplied: we
+need to find it ourselves.
+
+Taking a look at the source, we see that there is a table of users containing a
+username and password, each up to 64 characters long. We obviously only care about
+natas16 (since that's the password we are trying to get), so let's cURL (or use the
+webpage if you choose) with username natas16.
+
+Alright, we are in business! What we really want is the password, however, so what
+we'll need to do is ask with a password field to see if we can get a resource:
+curl -v -G -u natas15:AwWj0w5cvxrZiONgZ9J5stNVkmxdk39J --data-urlencode 
+"username=natas16\" and password like binary \"%" natas15.natas.labs.overthewire.org
+
+What we are doing here is checking if we can inject the password argument, and get
+valid feedback from it. This may be obvious if you know SQL (I don't and have had to
+learn all of this while I go), but the "binary" is needed for us to differentiate
+lower case from upper case characters, since SQL is not case sensitive.
+
+If you take a look at the Bash script I put together, you'll see how I completed
+this. I made curl silent with the "-s" flag so it wouldn't clobber me with output,
+and checked every returned request for the success message shown in the source. If
+this was a success, I appended the password and started over in my main for-loop,
+which checked up to 64 iterations or until no match was found.

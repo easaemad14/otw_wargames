@@ -1,0 +1,15 @@
+This is the exact same as the last level, with an additional "security" check to
+ensure that the file is an image file.
+
+To solve this, you'll need to understand how magic numbers work. Checking online, I
+found that the JPEG magic number is ff d8 ff. Using the same file as before (make
+sure you modify to print the correct password file), create a temporary hex file
+with xxd: xxd -p <file.php> <file.dump>
+
+The "-p" flag just dumps the plain hex values (no addresses, etc.). Now, all you
+need to do is prepend the magic number to this file and revert with the command:
+xxd -r -p <file.dump> <file.php>
+
+You can ensure that this is now an image file by using the "file" command. Upload
+your new file and you should have the password to the next level. The prepended
+garbage can be ignored, this is your doing from setting the magic number.

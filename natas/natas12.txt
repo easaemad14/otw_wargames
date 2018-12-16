@@ -1,0 +1,30 @@
+You'll need a decent understanding of PHP and HTTP in order to follow along with
+this problem.
+
+If you look at the source, you'll see that the file name is randomized, but the
+extension is kept. If the file size fits the requirements, we move the file to the
+upload directory and return the path.
+
+There is a form-data POST method, which we are interested in. We can upload files
+by setting the "uploadedfile" to our file name. In the source, however, "filename"
+is also needed to do any processing.
+
+You'll also notice the "hidden" tags, which specify the max file size (which is
+never used) and the filename. "Hidden" is parenthetical in the last sentence
+because it's important to understand that tags that are of type hidden are still
+visible if someone looks at the source; this is just a nice way of hiding data from
+a page. In order to complete submission, we need to set the filename to something
+(or let the submission complete this for us, at which point if will enforce the
+.jpg extension, which is not what we want). Let's create a local file that contains
+the following PHP code to print out the password for the next level:
+<?php system("cat /etc/natas_webpass/natas13") ?>.
+
+Now that we have our file, we can use cURL to upload our file and get a link to the
+randomly assigned address (at which point, you can cURL the address with the
+appended file upload path to get the password to the next level):
+curl -u natas12:<natas12_password> -F uploadedfile=@<local_filename> -F
+filename=a.php natas12.natas.labs.overthewire.org
+
+Note the "-F" option is because this is a form-data POST type and I set the value of
+"filename" to "a.php" because only the extension matters, i.e. the name will be
+randomized when you upload.

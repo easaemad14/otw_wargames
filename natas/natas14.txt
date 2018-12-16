@@ -1,0 +1,25 @@
+Alright, time to inject some SQLs.
+
+Taking a look at the source, we have a POST method which takes a username and
+password to log into a SQL database. If this is a GET request, and the request
+contains "debug", they are nice enough to output our query for easy debugging.
+Finally, if our query contains something, we'll be prompted with the password for
+the next level.
+
+Before we attempt something, let's try a basic GET with all inputs:
+curl -v -u natas14:Lg96M10TdfaPyVBkJdjymbllQ5L6qdl1 -d "debug&username&password" -G
+natas14.natas.labs.overthewire.org
+
+Notice that I use the -G option in my cURL request to ensure that this is a GET
+request, in lieu of a POST since I want to see query.
+
+Alright, so all we need to do is force the query to be true, and we'll get all of
+the resources. We can do this with the following data (remember to URL encode your
+data!): -d "username=%22%20OR%201%3D1%20%2D%2D%20&password"
+
+What the above data contains is a closing quotation mark (for the username field),
+a space, the evaluation 1=1 which will always return true, and then I comment out
+the rest of the line (I don't need to do this for passwords if I don't include it).
+Surely there is no match for an empty username, but since this is ORed with a
+statement which will always be true, the username doesn't matter. cURL the above
+data and you should have your password to level15!
